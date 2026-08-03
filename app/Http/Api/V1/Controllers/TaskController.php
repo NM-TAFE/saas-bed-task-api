@@ -16,10 +16,13 @@ class TaskController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
+
         // TO DO connect any relationships
         $tasks = Task::query()
             ->latest()
             ->paginate(25);
+
+        dd($tasks);
 
         return TaskResource::collection($tasks);
     }
