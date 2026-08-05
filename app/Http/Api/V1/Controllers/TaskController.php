@@ -3,8 +3,8 @@
 namespace App\Http\Api\V1\Controllers;
 
 use App\Models\Task;
-use App\Http\Requests\Api\V1\StoreTaskRequest;
-use App\Http\Requests\Api\V1\UpdateTaskRequest;
+use App\Http\Api\V1\Requests\StoreTaskRequest;
+use App\Http\Api\V1\Requests\UpdateTaskRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
