@@ -6,15 +6,25 @@ use App\Models\Task;
 use App\Http\Requests\Api\V1\StoreTaskRequest;
 use App\Http\Requests\Api\V1\UpdateTaskRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\V1\TaskResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        //
+
+        // TO DO connect any relationships
+        $tasks = Task::query()
+            ->latest()
+            ->paginate(25);
+
+        dd($tasks);
+
+        return TaskResource::collection($tasks);
     }
 
     /**
@@ -30,7 +40,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $task = Task::create($request->validated());
+        // TODO Load up the projects
+        return new TaskResource($task);
     }
 
     /**
