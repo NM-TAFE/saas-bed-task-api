@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\V1;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -23,7 +24,12 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            // 'project_id' => ['sometimes', 'required', 'string', 'exists:projects,id'],
+            'assigned_to' => ['sometimes', 'nullable', 'string', 'exists:users,id'],
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['sometimes', 'nullable', 'string'],
+            'status' => ['sometimes', 'required', Rule::in(['todo', 'in_progress', 'done'])],
+            'due_date' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
         ];
     }
 }

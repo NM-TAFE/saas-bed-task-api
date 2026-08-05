@@ -25,6 +25,7 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'assigned_to' => ["nullable", "string", 'exist: users, id'],
+            'name' => ['string'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],
             'due_date' => ['nullable', 'date_format:d-m-Y']
