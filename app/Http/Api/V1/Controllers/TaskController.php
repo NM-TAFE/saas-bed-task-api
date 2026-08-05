@@ -22,7 +22,7 @@ class TaskController extends Controller
             ->latest()
             ->paginate(25);
 
-        dd($tasks);
+        // dd($tasks);
 
         return TaskResource::collection($tasks);
     }
