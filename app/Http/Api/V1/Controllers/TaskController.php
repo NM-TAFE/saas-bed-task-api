@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Api\V1\Controllers;
 
 use App\Models\Task;
@@ -9,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\TaskResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class TaskController extends Controller
+final class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources\Api\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+final class TaskResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,7 +28,7 @@ class TaskResource extends JsonResource
             ],
             'assigned_to' => $this->whenLoaded(
                 'assignedTo',
-                fn () => $this->assignedTo === null ? null : [
+                fn() => $this->assignedTo === null ? null : [
                     'id' => $this->assignedTo->id,
                     'name' => $this->assignedTo->name,
                 ]

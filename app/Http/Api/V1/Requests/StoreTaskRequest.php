@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Api\V1\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreTaskRequest extends FormRequest
+final class StoreTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
