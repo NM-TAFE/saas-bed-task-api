@@ -14,7 +14,10 @@ class Task extends Model
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory, HasUlids;
 
-    protected $fillable = [
+    /**
+     * @var list<string>
+     */
+    protected array $fillable = [
         // 'project_id',
         'assigned_to',
         'name',
@@ -23,6 +26,9 @@ class Task extends Model
         'due_date',
     ];
 
+    /**
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [

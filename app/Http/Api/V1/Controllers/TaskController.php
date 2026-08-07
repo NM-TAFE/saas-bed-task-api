@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Api\V1\Controllers;
 
-use App\Models\Task;
 use App\Http\Api\V1\Requests\StoreTaskRequest;
 use App\Http\Api\V1\Requests\UpdateTaskRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\TaskResource;
+use App\Models\Task;
+use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class TaskController extends Controller
@@ -18,64 +19,49 @@ final class TaskController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-
-        // TO DO connect any relationships
         $tasks = Task::query()
+            ->with('assignedTo')
             ->latest()
             ->paginate(25);
-
-        // dd($tasks);
 
         return TaskResource::collection($tasks);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request)
+    public function store(StoreTaskRequest $request): TaskResource
     {
         $task = Task::create($request->validated());
-        // TODO Load up the projects
-        return new TaskResource($task);
+
+        return new TaskResource($task->load('assignedTo'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $task): TaskResource
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
+        return new TaskResource($task->load('assignedTo'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task): TaskResource
     {
-        //
+        $task->update($request->validated());
+
+        return new TaskResource($task->load('assignedTo'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task): Response
     {
-        //
+        $task->delete();
+
+        return response()->noContent();
     }
 }
