@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,18 +13,15 @@ final class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_client_can_log_in(): void
+    public function test_seeded_client_can_log_in(): void
     {
-        User::factory()->create([
-            'email' => 'user@example.com',
-            'password' => 'password',
-        ]);
+        $this->seed(DatabaseSeeder::class);
 
         $response = $this
             ->withServerVariables(['REMOTE_ADDR' => '127.0.0.1'])
             ->postJson('/api/v1/auth/login', [
-                'email' => 'user@example.com',
-                'password' => 'password',
+                'email' => DatabaseSeeder::CLIENT_EMAIL,
+                'password' => DatabaseSeeder::CLIENT_PASSWORD,
             ]);
 
         $response
