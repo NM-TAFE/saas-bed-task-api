@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\V1\Controllers;
+namespace App\Http\Api\Controllers;
 
-use App\Http\Api\V1\Requests\StoreTaskRequest;
-use App\Http\Api\V1\Requests\UpdateTaskRequest;
+use App\Http\Api\Requests\StoreTaskRequest;
+use App\Http\Api\Requests\UpdateTaskRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\TaskResource;
 use App\Models\Task;

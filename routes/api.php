@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Http\Api\V1\Controllers\TaskController;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request): ?Authenticatable {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::prefix('v1')->group(static function (): void {
+    Route::as('auth:')
+        ->prefix('auth')
+        ->group(base_path(path: 'routes/api/auth.php'));
 
-Route::prefix('v1')->group(function (): void {
-    Route::apiResource('tasks', TaskController::class);
+    Route::middleware(['auth:sanctum'])->group(static function (): void {
+        Route::prefix('users')->group(base_path(path: 'routes/api/users.php'));
+        Route::prefix('tasks')->group(base_path(path: 'routes/api/tasks.php'));
+    });
 });
