@@ -1,58 +1,199 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task API Scaffold
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel 13 API scaffold for client-facing integrations.
 
-## About Laravel
+The project is intended to demonstrate a structure suitable for:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- API clients and internal frontends
+- third-party integrations
+- LLM and agent tooling
+- MCP-style server consumers
+- DTO and multitenancy expansion
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The app is currently single-tenant at runtime. Multitenancy-related structure is intentionally left as scaffolding for future implementation.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Current Shape
 
-## Learning Laravel
+- Versioned API routes under `routes/api.php`
+- Auth endpoint using Sanctum personal access tokens
+- Request validation classes under `app/Http/Api/Requests`
+- API controllers under `app/Http/Api/Controllers`
+- Resource serialization under `app/Http/Resources`
+- Response wrapper classes scaffolded under `app/Http/Api/Responses`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Current API routes:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `POST /api/v1/auth/login`
+- `GET /api/v1/users`
+- `GET /api/v1/tasks`
+- `POST /api/v1/tasks`
+- `GET /api/v1/tasks/{task}`
+- `PUT/PATCH /api/v1/tasks/{task}`
+- `DELETE /api/v1/tasks/{task}`
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Authentication
 
-## Agentic Development
+Authentication uses Laravel Sanctum token creation via:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- `POST /api/v1/auth/login`
 
-```bash
-composer require laravel/boost --dev
+Request body:
 
-php artisan boost:install
+```json
+{
+  "email": "client@example.com",
+  "password": "password"
+}
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Optional header:
 
-## Contributing
+```text
+X-Integration-Name: Johns-Modem
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Successful login returns a bearer token.
 
-## Code of Conduct
+The login endpoint is rate-limited by email and client IP.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Seeded Client
 
-## Security Vulnerabilities
+The default database seeder creates a test client account:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Email: `client@example.com`
+- Password: `password`
 
-## License
+Defined in `database/seeders/DatabaseSeeder.php`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Getting Started
+
+### Requirements
+
+- PHP 8.3+
+- Composer
+- Node.js and npm
+- MySQL for local runtime, or SQLite for test runs
+
+### Initial setup
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+```
+
+Or use the Composer helper:
+
+```bash
+composer setup
+```
+
+## Useful Commands
+
+### Development
+
+Start the full local dev stack:
+
+```bash
+composer dev
+```
+
+Start only the Laravel server:
+
+```bash
+php artisan serve
+```
+
+Tail Laravel logs:
+
+```bash
+php artisan pail
+```
+
+### Database
+
+Run migrations:
+
+```bash
+php artisan migrate
+```
+
+Refresh and reseed:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+Run seeders only:
+
+```bash
+php artisan db:seed
+```
+
+### Testing
+
+Run the full test suite:
+
+```bash
+composer test
+```
+
+Run a focused auth test:
+
+```bash
+php artisan test tests/Feature/Auth/LoginTest.php
+```
+
+### Introspection
+
+List API routes:
+
+```bash
+php artisan route:list --path=api/v1
+```
+
+Open an interactive shell:
+
+```bash
+php artisan tinker
+```
+
+## Example Login Request
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -H "X-Integration-Name: local-client" \
+  -d '{
+    "email": "client@example.com",
+    "password": "password"
+  }'
+```
+
+## Design Intent
+
+This codebase is meant to show a clean starting structure for an API-first Laravel app rather than a finished production platform.
+
+Intentional design choices:
+
+- versioned routes from day one
+- separated API controllers and requests
+- token-based auth for machine clients
+- room for DTO/action layering
+- room for future multitenant scoping
+
+Not implemented yet:
+
+- Multitenancy
+- Data Transfer Object mapping
+- Resource policies
+- Tenant-aware data scoping
+- formal API schema or SDK generation
+
+## Notes
+
+- User IDs use ULIDs.
+- Sanctum personal access tokens are configured to work with ULID-backed users.
+- Tests run against SQLite in memory via `phpunit.xml`.

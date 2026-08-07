@@ -22,6 +22,8 @@ final readonly class LoginController
     {
         $request->authenticate();
 
+        dd($request);
+
         /** @var NewAccessToken $token */
         $token = $this->database->transaction(
             callback: fn() => $request->user()?->createToken(
@@ -30,6 +32,8 @@ final readonly class LoginController
             ),
             attempts: 3,
         );
+
+        // dd($token);
 
         return response()->json([
             'token' => $token->plainTextToken,

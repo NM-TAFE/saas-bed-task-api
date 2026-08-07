@@ -13,7 +13,7 @@ final class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_seeded_client_can_log_in(): void
+    public function test_client_can_log_in(): void
     {
         $this->seed(DatabaseSeeder::class);
 
