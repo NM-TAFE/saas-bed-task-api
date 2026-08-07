@@ -23,7 +23,7 @@ final readonly class LoginController
     {
         $request->authenticate();
 
-        dd($request);
+        // dd($request);
 
         /** @var NewAccessToken $token */
         $token = $this->database->transaction(
