@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Controllers;
+namespace App\Http\Api\Controllers\Tasks;
 
-use App\Http\Api\Requests\StoreTaskRequest;
-use App\Http\Api\Requests\UpdateTaskRequest;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\TaskResource;
+use App\Http\Api\Controllers\Controller;
+use App\Http\Api\Requests\Tasks\StoreTaskRequest;
+use App\Http\Api\Requests\Tasks\UpdateTaskRequest;
+use App\Http\Api\Resources\TaskResource;
 use App\Models\Task;
+
 use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
