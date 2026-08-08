@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Api\Payloads\Tasks;
+namespace App\Http\Api\Payloads;
 
 final readonly class NewTask
 {
