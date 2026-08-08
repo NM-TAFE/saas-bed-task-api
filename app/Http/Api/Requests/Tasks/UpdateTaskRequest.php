@@ -27,7 +27,7 @@ final class UpdateTaskRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string'],
             'status' => ['sometimes', 'required', Rule::in(['todo', 'in_progress', 'done'])],
-            'due_date' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
+            'due_date' => ['sometimes', 'nullable', 'date_format:d-m-Y'],
         ];
     }
 
