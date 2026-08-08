@@ -4,33 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Requests\Tasks;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use App\Http\Api\Payloads\Tasks\NewTask;
 
 final class StoreTaskRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+    public function payload(): NewTask
     {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            'assigned_to' => ["nullable", "string", 'exist: users, id'],
-            'name' => ['string'],
-            'description' => ['nullable', 'string'],
-            'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],
-            'due_date' => ['nullable', 'date_format:d-m-Y']
-        ];
+        return new NewTask(
+            name: (string) $this->validated('name'),
+            description: $this->validated('description'),
+            status: (string) $this->validated('status'),
+            dueDate: $this->validated('due_date'),
+            assignedTo: $this->validated('assigned_to'),
+        );
     }
 }
