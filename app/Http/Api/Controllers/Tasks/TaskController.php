@@ -7,6 +7,7 @@ namespace App\Http\Api\Controllers\Tasks;
 use App\Http\Api\Controllers\Controller;
 use App\Http\Api\Requests\Tasks\StoreTaskRequest;
 use App\Http\Api\Requests\Tasks\UpdateTaskRequest;
+use App\Http\Api\Resources\TaskResource;
 use App\Jobs\Tasks\CreateNewTask;
 use App\Models\Task;
 
