@@ -8,27 +8,28 @@ use App\Http\Api\Controllers\Controller;
 use App\Http\Api\Requests\Tasks\StoreTaskRequest;
 use App\Http\Api\Requests\Tasks\UpdateTaskRequest;
 use App\Http\Api\Resources\TaskResource;
+use App\Http\Api\Responses\ModelResponse;
+use App\Http\Api\Responses\MessageResponse;
+use App\Http\Api\Responses\PaginatedCollectionResponse;
 use App\Jobs\Tasks\CreateNewTask;
 use App\Models\Task;
-
-use App\Http\Api\Responses\ModelResponse;
-
 use Illuminate\Http\Response;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(): PaginatedCollectionResponse
     {
         $tasks = Task::query()
             ->with('assignedTo')
             ->latest()
             ->paginate(25);
 
-        return TaskResource::collection($tasks);
+        return new PaginatedCollectionResponse(
+            TaskResource::collection($tasks),
+        );
     }
 
     /**
