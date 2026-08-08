@@ -12,6 +12,7 @@ use App\Http\Api\Responses\ModelResponse;
 use App\Http\Api\Responses\MessageResponse;
 use App\Http\Api\Responses\PaginatedCollectionResponse;
 use App\Jobs\Tasks\CreateNewTask;
+use App\Jobs\Tasks\UpdateTask;
 use App\Models\Task;
 use Illuminate\Http\Response;
 
@@ -60,11 +61,16 @@ final class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task): TaskResource
+    public function update(UpdateTaskRequest $request, Task $task): ModelResponse
     {
-        $task->update($request->validated());
+        $task = app(UpdateTask::class, [
+            'task' => $task,
+            'payload' => $request->payload($task),
+        ])->handle(app('db'));
 
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            new TaskResource($task->load('assignedTo')),
+        );
     }
 
     /**
