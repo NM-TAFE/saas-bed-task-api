@@ -7,8 +7,10 @@ namespace App\Http\Api\Controllers\Tasks;
 use App\Http\Api\Controllers\Controller;
 use App\Http\Api\Requests\Tasks\StoreTaskRequest;
 use App\Http\Api\Requests\Tasks\UpdateTaskRequest;
-use App\Http\Api\Resources\TaskResource;
+use App\Jobs\Tasks\CreateNewTask;
 use App\Models\Task;
+
+use App\Http\Responses\ModelResponse;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -31,11 +33,16 @@ final class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request): TaskResource
+    public function store(StoreTaskRequest $request): ModelResponse
     {
-        $task = Task::create($request->validated());
+        $task = app(CreateNewTask::class, [
+            'payload' => $request->payload(),
+        ])->handle(app('db'));
 
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            data: new TaskResource($task->load('assignedTo')),
+            status: Response::HTTP_CREATED,
+        );
     }
 
     /**
