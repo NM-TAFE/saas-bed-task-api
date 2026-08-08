@@ -32,12 +32,14 @@ final class StoreTaskRequest extends FormRequest
 
     public function payload(): NewTask
     {
+        $data = $this->validated();
+
         return new NewTask(
-            name: (string) $this->validated('name'),
-            description: $this->validated('description'),
-            status: (string) $this->validated('status'),
-            dueDate: $this->validated('due_date'),
-            assignedTo: $this->validated('assigned_to'),
+            name: $data['name'],
+            description: $data['description'] ?? null,
+            status: $data['status'],
+            dueDate: $data['due_date'] ?? null,
+            assignedTo: $data['assigned_to'] ?? null,
         );
     }
 }

@@ -33,12 +33,14 @@ final class UpdateTaskRequest extends FormRequest
 
     public function payload(Task $task): NewTask
     {
+        $data = $this->validated();
+
         return new NewTask(
-            name: (string) ($this->validated('name') ?? $task->name),
-            description: $this->validated('description') ?? $task->description,
-            status: (string) ($this->validated('status') ?? $task->status),
-            dueDate: $this->validated('due_date') ?? $task->due_date?->format('Y-m-d'),
-            assignedTo: $this->validated('assigned_to') ?? $task->assigned_to,
+            name: $data['name'] ?? $task->name,
+            description: $data['description'] ?? $task->description,
+            status: $data['status'] ?? $task->status,
+            dueDate: $data['due_date'] ?? $task->due_date?->format('Y-m-d'),
+            assignedTo: $data['assigned_to'] ?? $task->assigned_to,
         );
     }
 }
