@@ -13,6 +13,7 @@ use App\Http\Api\Responses\MessageResponse;
 use App\Http\Api\Responses\PaginatedCollectionResponse;
 use App\Jobs\Tasks\CreateNewTask;
 use App\Jobs\Tasks\UpdateTask;
+use App\Jobs\Tasks\DeleteTask;
 use App\Models\Task;
 use Illuminate\Http\Response;
 
@@ -76,10 +77,14 @@ final class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task): Response
+    public function destroy(Task $task): MessageResponse
     {
-        $task->delete();
+        app(DeleteTask::class, [
+            'task' => $task,
+        ])->handle(app('db'));
 
-        return response()->noContent();
+        return new MessageResponse(
+            message: 'Task deleted successfully.',
+        );
     }
 }
