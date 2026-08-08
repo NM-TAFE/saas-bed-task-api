@@ -50,9 +50,11 @@ final class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task): TaskResource
+    public function show(Task $task): ModelResponse
     {
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            new TaskResource($task->load('assignedTo')),
+        );
     }
 
     /**
