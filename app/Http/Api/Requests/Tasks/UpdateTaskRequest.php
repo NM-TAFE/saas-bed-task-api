@@ -39,7 +39,7 @@ final class UpdateTaskRequest extends FormRequest
             name: $data['name'] ?? $task->name,
             description: $data['description'] ?? $task->description,
             status: $data['status'] ?? $task->status,
-            dueDate: $data['due_date'] ?? $task->due_date?->format('Y-m-d'),
+            dueDate: $data['due_date'] ?? $task->due_date?->format('d-m-Y'),
             assignedTo: $data['assigned_to'] ?? $task->assigned_to,
         );
     }

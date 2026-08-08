@@ -26,7 +26,7 @@ final class StoreTaskRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],
-            'due_date' => ['nullable', 'date_format:Y-m-d'],
+            'due_date' => ['nullable', 'date_format:d-m-Y'],
         ];
     }
 
