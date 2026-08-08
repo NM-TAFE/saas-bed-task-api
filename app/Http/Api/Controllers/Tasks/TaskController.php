@@ -11,7 +11,7 @@ use App\Http\Api\Resources\TaskResource;
 use App\Jobs\Tasks\CreateNewTask;
 use App\Models\Task;
 
-use App\Http\Responses\ModelResponse;
+use App\Http\Api\Responses\ModelResponse;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
