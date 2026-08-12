@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Http\Payloads\Tasks\NewTask;
+use App\Models\Task;
 
 final class UpdateTaskRequest extends FormRequest
 {
