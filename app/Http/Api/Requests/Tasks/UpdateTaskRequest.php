@@ -34,4 +34,17 @@ final class UpdateTaskRequest extends FormRequest
             'due_date' => ['sometimes', 'nullable', 'date_format:Y-m-d'],
         ];
     }
+
+    public function payload(Task $task): NewTask
+    {
+        $data = $this->validated();
+
+        return new NewTask(
+            name: (string) $data['name'] ?? $task->name),
+            description: (string) $data['description'] ?? $task->description,
+            status: (string) $data['status'] ?? $task->status),
+            dueDate: $data['due_date'] ?? $task->due_date?->format('d-m-Y'),
+            assignedTo: $data['assigned_to'] ?? $task->assigned_to,
+        );
+    }
 }

@@ -7,6 +7,7 @@ namespace App\Http\Api\Requests\Tasks;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Http\Payloads\Tasks\NewTask;
 
 final class StoreTaskRequest extends FormRequest
 {
@@ -32,5 +33,18 @@ final class StoreTaskRequest extends FormRequest
             'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],
             'due_date' => ['nullable', 'date_format:d-m-Y']
         ];
+    }
+
+    public function payload(): NewTask
+    {
+        $data = $this->validated();
+
+        return new NewTask(
+            name: (string) $data['name'],
+            description: (string) $data['description'],
+            status: (string) $data['status'],
+            dueDate: $data['due_date'],
+            assignedTo: $data['assigned_to'],
+        );
     }
 }
