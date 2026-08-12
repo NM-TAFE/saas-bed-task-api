@@ -26,7 +26,7 @@ final class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assigned_to' => ["nullable", "string", 'exist: users, id'],
+            'assigned_to' => ["nullable", "string", "exists:users,id"],
             'name' => ['string'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],
