@@ -7,6 +7,7 @@ namespace App\Http\Api\Requests\Tasks;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Http\Payloads\Tasks\NewTask;
 
 final class UpdateTaskRequest extends FormRequest
 {
@@ -40,9 +41,9 @@ final class UpdateTaskRequest extends FormRequest
         $data = $this->validated();
 
         return new NewTask(
-            name: (string) $data['name'] ?? $task->name),
+            name: (string) $data['name'] ?? $task->name,
             description: (string) $data['description'] ?? $task->description,
-            status: (string) $data['status'] ?? $task->status),
+            status: (string) $data['status'] ?? $task->status,
             dueDate: $data['due_date'] ?? $task->due_date?->format('d-m-Y'),
             assignedTo: $data['assigned_to'] ?? $task->assigned_to,
         );
