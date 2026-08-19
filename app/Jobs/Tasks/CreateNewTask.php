@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs\Tasks;
 
-use App\Http\Payloads\NewTask;
+use App\Http\Payloads\Tasks\NewTask;
 use App\Models\Task;
 use Illuminate\Database\DatabaseManager;
 use Throwable;
