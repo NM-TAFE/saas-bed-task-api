@@ -24,7 +24,7 @@ final class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(): PaginatedCollectionResponse
     {
         $tasks = Task::query()
             ->with('assignedTo')
@@ -39,13 +39,16 @@ final class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request): TaskResource
+    public function store(StoreTaskRequest $request): ModelResponse
     {
         $task = Task::create($request->validated());
 
         // dd($task);
 
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            data: new TaskResource($task->load('assignedTo')),
+            status: Response::HTTP_CREATED,
+        );
     }
 
     /**
