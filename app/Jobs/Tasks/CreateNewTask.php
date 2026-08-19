@@ -16,6 +16,8 @@ final readonly class CreateNewTask
     /** @throws Throwable */
     public function handle(DatabaseManager $database): Task
     {
+        // dd($this->payload);
+
         return $database->transaction(
             callback: fn(): Task => Task::query()->create($this->payload->toArray()),
             attempts: 3,
