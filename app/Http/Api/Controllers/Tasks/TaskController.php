@@ -54,28 +54,34 @@ final class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task): TaskResource
+    public function show(Task $task): ModelResponse
     {
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            new TaskResource($task->load('assignedTo')),
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task): TaskResource
+    public function update(UpdateTaskRequest $request, Task $task): ModelResponse
     {
         $task->update($request->validated());
 
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            new TaskResource($task->load('assignedTo')),
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task): Response
+    public function destroy(Task $task): MessageResponse
     {
         $task->delete();
 
-        return response()->noContent();
+        return new MessageResponse(
+            message: 'Task deleted successfully.',
+        );
     }
 }
