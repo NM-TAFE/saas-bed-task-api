@@ -82,7 +82,9 @@ final class TaskController extends Controller
      */
     public function destroy(Task $task): MessageResponse
     {
-        $task->delete();
+        app(DeleteTask::class, [
+            'task' => $task,
+        ])->handle(app('db'));
 
         return new MessageResponse(
             message: 'Task deleted successfully.',
