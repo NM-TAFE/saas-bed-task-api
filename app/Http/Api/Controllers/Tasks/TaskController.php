@@ -11,6 +11,9 @@ use App\Http\Api\Resources\TaskResource;
 use App\Http\Responses\MessageResponse;
 use App\Http\Responses\ModelResponse;
 use App\Http\Responses\PaginatedCollectionResponse;
+use App\Jobs\Tasks\CreateNewTask;
+use App\Jobs\Tasks\DeleteTask;
+use App\Jobs\Tasks\UpdateTask;
 use App\Models\Task;
 
 use Illuminate\Http\Response;
@@ -28,7 +31,9 @@ final class TaskController extends Controller
             ->latest()
             ->paginate(25);
 
-        return TaskResource::collection($tasks);
+        return new PaginatedCollectionResponse(
+            TaskResource::collection($tasks),
+        );
     }
 
     /**
