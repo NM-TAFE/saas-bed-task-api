@@ -40,7 +40,9 @@ final class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request): ModelResponse
     {
-        $task = Task::create($request->validated());
+        $task = app(CreateNewTask::class, [
+            'payload' => $request->payload(),
+        ])->handle(app('db'));
 
         // dd($task);
 
