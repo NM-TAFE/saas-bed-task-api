@@ -40,11 +40,11 @@ final class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request): ModelResponse
     {
+        // dd($request);
+
         $task = app(CreateNewTask::class, [
             'payload' => $request->payload(),
         ])->handle(app('db'));
-
-        // dd($task);
 
         return new ModelResponse(
             data: new TaskResource($task->load('assignedTo')),
@@ -67,7 +67,10 @@ final class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task): ModelResponse
     {
-        $task->update($request->validated());
+        $task = app(UpdateTask::class, [
+            'task' => $task,
+            'payload' => $request->payload($task),
+        ])->handle(app('db'));
 
         return new ModelResponse(
             new TaskResource($task->load('assignedTo')),
