@@ -8,63 +8,86 @@ use App\Http\Api\Controllers\Controller;
 use App\Http\Api\Requests\Tasks\StoreTaskRequest;
 use App\Http\Api\Requests\Tasks\UpdateTaskRequest;
 use App\Http\Api\Resources\TaskResource;
+use App\Http\Api\Responses\MessageResponse;
+use App\Http\Api\Responses\ModelResponse;
+use App\Http\Api\Responses\PaginatedCollectionResponse;
+use App\Jobs\Tasks\CreateNewTask;
+use App\Jobs\Tasks\DeleteTask;
+use App\Jobs\Tasks\UpdateTask;
 use App\Models\Task;
 
 use Illuminate\Http\Response;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 final class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(): PaginatedCollectionResponse
     {
         $tasks = Task::query()
             ->with('assignedTo')
             ->latest()
             ->paginate(25);
 
-        return TaskResource::collection($tasks);
+        return new PaginatedCollectionResponse(
+            TaskResource::collection($tasks),
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request): TaskResource
+    public function store(StoreTaskRequest $request): MessageResponse
     {
-        $task = Task::create($request->validated());
+        $task = app(CreateNewTask::class, [
+            'payload' => $request->payload(),
+        ])->handle();
 
-        // dd($task);
+        // return new ModelResponse(
+        //     data: new TaskResource($task->load('assignedTo')),
+        //     status: Response::HTTP_CREATED,
+        // );
 
-        return new TaskResource($task->load('assignedTo'));
+        return new MessageResponse(message: 'We have accepted your request.', status: Response::HTTP_ACCEPTED);
     }
-
     /**
      * Display the specified resource.
      */
-    public function show(Task $task): TaskResource
+    public function show(Task $task): ModelResponse
     {
-        return new TaskResource($task->load('assignedTo'));
+        return new ModelResponse(
+            new TaskResource($task->load('assignedTo')),
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task): TaskResource
+    public function update(UpdateTaskRequest $request, Task $task): MessageResponse
     {
-        $task->update($request->validated());
+        $task = app(UpdateTask::class, [
+            'task' => $task,
+            'payload' => $request->payload($task),
+        ])->handle();
 
-        return new TaskResource($task->load('assignedTo'));
+        // return new ModelResponse(
+        //     new TaskResource($task->load('assignedTo')),
+        // );
+        return new MessageResponse(message: 'We have accepted your request.', status: Response::HTTP_ACCEPTED);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task): Response
+    public function destroy(Task $task): MessageResponse
     {
-        $task->delete();
+        app(DeleteTask::class, [
+            'task' => $task,
+        ])->handle();
 
-        return response()->noContent();
+        return new MessageResponse(
+            message: 'Task deleted successfully.',
+        );
     }
 }
