@@ -22,11 +22,12 @@ class TaskFactory extends Factory
             'description' => fake()->paragraph(3),
             'status' => fake()->randomElement(['todo', 'in_progress', 'done']),
             'due_date' => fake()->optional()->dateTimeBetween('now', '+3 months'),
+            'tag_ids' => [],
         ];
     }
 
     public function done(): static
     {
-        return $this->state(fn () => ['status' => 'done']);
+        return $this->state(fn() => ['status' => 'done']);
     }
 }

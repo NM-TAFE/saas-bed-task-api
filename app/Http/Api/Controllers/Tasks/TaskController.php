@@ -38,20 +38,19 @@ final class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request): ModelResponse
+    public function store(StoreTaskRequest $request): MessageResponse
     {
-        // dd($request);
-
         $task = app(CreateNewTask::class, [
             'payload' => $request->payload(),
-        ])->handle(app('db'));
+        ])->handle();
 
-        return new ModelResponse(
-            data: new TaskResource($task->load('assignedTo')),
-            status: Response::HTTP_CREATED,
-        );
+        // return new ModelResponse(
+        //     data: new TaskResource($task->load('assignedTo')),
+        //     status: Response::HTTP_CREATED,
+        // );
+
+        return new MessageResponse(message: 'We have accepted your request.', status: Response::HTTP_ACCEPTED);
     }
-
     /**
      * Display the specified resource.
      */
@@ -65,16 +64,17 @@ final class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task): ModelResponse
+    public function update(UpdateTaskRequest $request, Task $task): MessageResponse
     {
         $task = app(UpdateTask::class, [
             'task' => $task,
             'payload' => $request->payload($task),
-        ])->handle(app('db'));
+        ])->handle();
 
-        return new ModelResponse(
-            new TaskResource($task->load('assignedTo')),
-        );
+        // return new ModelResponse(
+        //     new TaskResource($task->load('assignedTo')),
+        // );
+        return new MessageResponse(message: 'We have accepted your request.', status: Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -84,7 +84,7 @@ final class TaskController extends Controller
     {
         app(DeleteTask::class, [
             'task' => $task,
-        ])->handle(app('db'));
+        ])->handle();
 
         return new MessageResponse(
             message: 'Task deleted successfully.',

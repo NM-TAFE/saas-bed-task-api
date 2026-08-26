@@ -22,6 +22,9 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, HasUlids, Notifiable;
 
+    protected $connection = 'mongodb';
+    protected $table = 'users';
+
     /**
      * Get the attributes that should be cast.
      *

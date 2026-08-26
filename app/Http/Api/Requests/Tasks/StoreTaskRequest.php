@@ -31,7 +31,14 @@ final class StoreTaskRequest extends FormRequest
             'name' => ['string'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],
-            'due_date' => ['nullable', 'date_format:d-m-Y']
+            'due_date' => ['nullable', 'date_format:d-m-Y'],
+            'tag_ids' => [
+                'nullable',
+                'array',
+            ],
+            'tag_ids.*' => [
+                'string',
+            ],
         ];
     }
 
@@ -41,10 +48,11 @@ final class StoreTaskRequest extends FormRequest
 
         return new NewTask(
             name: (string) $data['name'],
-            description: (string) $data['description'],
+            description: (string) $data['description'] ?? null,
             status: (string) $data['status'],
-            dueDate: $data['due_date'],
-            assignedTo: $data['assigned_to'],
+            dueDate: $data['due_date'] ?? null,
+            assignedTo: $data['assigned_to'] ?? null,
+            tagIds: $data['tag_ids'] ?? [],
         );
     }
 }
