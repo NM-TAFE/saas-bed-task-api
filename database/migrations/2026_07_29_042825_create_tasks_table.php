@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use MongoDB\Laravel\Schema\Blueprint;
 
 return new class extends Migration
 {
@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->ulid('id')->primary();
-            // $table->foreignUlid('project_id')->constrained()->cascadeOnDelete();
-            $table->foreignUlid('assigned_to')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('status')->default('todo')->index();
-            $table->date('due_date')->nullable()->index();
-            $table->timestamps();
+        Schema::connection('mongodb')->create('tasks', function (Blueprint $table) {
+            $table->index('assigned_to');
+            $table->index('status');
+            $table->index('due_date');
         });
     }
 
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::connection('mongodb')->dropIfExists('tasks');
     }
 };
