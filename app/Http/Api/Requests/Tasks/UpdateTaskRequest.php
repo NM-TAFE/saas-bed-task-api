@@ -33,7 +33,15 @@ final class UpdateTaskRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string'],
             'status' => ['sometimes', 'required', Rule::in(['todo', 'in_progress', 'done'])],
-            'due_date' => ['sometimes', 'nullable', 'date_format:d-m-y'],
+            'due_date' => ['sometimes', 'nullable', 'date_format:d-m-Y'],
+            'tag_ids' => [
+                'sometimes',
+                'nullable',
+                'array',
+            ],
+            'tag_ids.*' => [
+                'string',
+            ],
         ];
     }
 
@@ -47,6 +55,9 @@ final class UpdateTaskRequest extends FormRequest
             status: (string) $data['status'] ?? $task->status,
             dueDate: $data['due_date'] ?? $task->due_date?->format('d-m-Y'),
             assignedTo: $data['assigned_to'] ?? $task->assigned_to,
+            tagIds: $data['tag_ids']
+                ?? $task->tag_ids
+                ?? [],
         );
     }
 }

@@ -35,6 +35,7 @@ final class TaskResource extends JsonResource
                     'name' => $this->assignedTo->name,
                 ]
             ),
+            'tag_ids' => $this->tag_ids ?? [],
         ];
     }
 }

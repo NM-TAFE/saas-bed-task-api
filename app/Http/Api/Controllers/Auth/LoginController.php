@@ -6,38 +6,33 @@ namespace App\Http\Api\Controllers\Auth;
 
 use App\Http\Api\Requests\Auth\LoginRequest;
 
-use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\NewAccessToken;
-use Throwable;
+use App\Http\Api\Responses\TokenResponse;
 
 final readonly class LoginController
 {
-    public function __construct(private DatabaseManager $database) {}
+    public function __construct() {}
 
     /**
      * @throws ValidationException|Throwable
      */
-    public function __invoke(LoginRequest $request): JsonResponse
+    public function __invoke(LoginRequest $request): TokenResponse
     {
         $request->authenticate();
 
         // dd($request);
 
         /** @var NewAccessToken $token */
-        $token = $this->database->transaction(
-            callback: fn() => $request->user()?->createToken(
-                name: $request->header('X-Integration-Name', 'default-integration'),
-                abilities: [],
-            ),
-            attempts: 3,
+        $token = $request->user()?->createToken(
+            name: $request->header('X-Integration-Name', 'default-integration'),
+            abilities: [],
         );
 
         // dd($token);
 
-        return response()->json([
-            'token' => $token->plainTextToken,
-        ]);
+
+        return new TokenResponse(token: $token->plainTextToken);
     }
 }

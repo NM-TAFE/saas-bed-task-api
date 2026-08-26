@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\App;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
+use MongoDB\Laravel\Eloquent\DocumentModel;
 
 final class PersonalAccessToken extends SanctumPersonalAccessToken
 {
-    /**
-     * Sanctum tokens live on the landlord connection, not the tenant DB.
-     */
-    public function getConnectionName(): ?string
-    {
-        return App::environment('testing') ? null : 'mysql';
-    }
+    use DocumentModel;
+
+    protected $connection = 'mongodb';
+    protected $table = 'personal_access_tokens';
+    protected $keyType = 'string';
 }

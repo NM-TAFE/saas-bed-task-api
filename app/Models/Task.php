@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
@@ -24,7 +24,11 @@ class Task extends Model
         'description',
         'status',
         'due_date',
+        'tag_ids',
     ];
+
+    protected $connection = 'mongodb';
+    protected $table = 'tasks';
 
     /**
      * @return array<string, string>
