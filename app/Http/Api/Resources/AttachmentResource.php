@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources;
+namespace App\Http\Api\Resources;
 
 use App\Models\Attachment;
 use Illuminate\Http\Request;

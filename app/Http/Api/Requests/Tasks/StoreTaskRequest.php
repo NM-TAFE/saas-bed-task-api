@@ -51,7 +51,7 @@ final class StoreTaskRequest extends FormRequest
             description: (string) $data['description'] ?? null,
             status: (string) $data['status'],
             dueDate: $data['due_date'] ?? null,
-            assignedTo: $data['assigned_to'] ?? null,
+            user: $data['assigned_to'] ?? null,
             tagIds: $data['tag_ids'] ?? [],
         );
     }

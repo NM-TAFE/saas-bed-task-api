@@ -41,7 +41,7 @@ final class Task extends Model
         ];
     }
 
-    public function assignedTo(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }

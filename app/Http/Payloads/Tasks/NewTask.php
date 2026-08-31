@@ -11,7 +11,7 @@ final readonly class NewTask
         public ?string $description,
         public string $status,
         public ?string $dueDate,
-        public ?string $assignedTo,
+        public ?string $user,
         public array $tagIds,
     ) {}
 
@@ -24,7 +24,7 @@ final readonly class NewTask
             'description' => $this->description,
             'status' => $this->status,
             'due_date' => $this->dueDate,
-            'assigned_to' => $this->assignedTo,
+            'assigned_to' => $this->user,
             'tag_ids' => $this->tagIds,
         ];
     }

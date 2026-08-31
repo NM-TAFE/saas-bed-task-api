@@ -29,10 +29,10 @@ final class TaskResource extends JsonResource
                 'string' => $this->created_at?->toIso8601String(),
             ],
             'assigned_to' => $this->whenLoaded(
-                'assignedTo',
-                fn() => $this->assignedTo === null ? null : [
-                    'id' => $this->assignedTo->id,
-                    'name' => $this->assignedTo->name,
+                'user',
+                fn() => $this->user === null ? null : [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
                 ]
             ),
             'tag_ids' => $this->tag_ids ?? [],
