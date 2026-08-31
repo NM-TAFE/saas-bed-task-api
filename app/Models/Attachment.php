@@ -79,6 +79,7 @@ final class Attachment extends Model
         return $this->belongsTo(User::class, 'uploaded_by', '_id');
     }
 
+    // Storage accessor
     public function getFilePathAttribute(): string
     {
         return (string) ($this->attributes['path'] ?? '');
