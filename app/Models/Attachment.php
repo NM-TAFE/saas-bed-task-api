@@ -11,10 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use MongoDB\Laravel\Eloquent\Model;
-use Throwable;
 
 /**
  * @property string $id

@@ -3,17 +3,18 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use MongoDB\Laravel\Schema\Blueprint;
 
-return new class extends Migration
-{
+return new class () extends Migration {
+    protected $connection = 'mongodb';
+
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('attachments', function (Blueprint $collection) {
+        Schema::create('attachments', function (Blueprint $collection): void {
             $collection->index(['attachmentable_type', 'attachmentable_id', 'created_at' => -1]);
             $collection->index(['uploaded_by', 'created_at' => -1]);
         });
