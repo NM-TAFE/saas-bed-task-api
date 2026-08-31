@@ -17,10 +17,10 @@ final class PolymorphicRelations
     public const ATTACHMENTABLE_MILESTONE = 'milestone';
 
 
-    // public static function enforceMorphMap(): void
-    // {
-    //     Relation::enforceMorphMap(self::morphMap());
-    // }
+    public static function enforceMorphMap(): void
+    {
+        Relation::enforceMorphMap(self::attachmentables());
+    }
 
     /** @return array<string, class-string<Model>> */
     public static function attachmentables(): array

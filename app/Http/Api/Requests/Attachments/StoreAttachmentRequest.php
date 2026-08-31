@@ -21,9 +21,9 @@ final class StoreAttachmentRequest extends FormRequest
     {
         return [
             'file_path' => ['required', 'string'],
-            'attachmentable_id' => ['required', 'ulid', 'exists:tasks,id'],
+            'attachmentable_id' => ['required', 'ulid', 'exists:tasks,_id'],
             'attachmentable_type' => ['required', 'string', 'in:task'],
-            'uploaded_by' => ['required', 'ulid', 'exists:users,id'],
+            'uploaded_by' => ['required', 'ulid', 'exists:users,_id'],
             'disk' => ['nullable', 'string', 'max:255'],
             'original_name' => ['nullable', 'string', 'max:255'],
             'mime_type' => ['nullable', 'string', 'max:255'],

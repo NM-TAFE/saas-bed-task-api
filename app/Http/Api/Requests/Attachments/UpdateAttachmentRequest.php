@@ -28,9 +28,9 @@ final class UpdateAttachmentRequest extends FormRequest
     {
         return [
             'file_path' => ['sometimes', 'required', 'string'],
-            'attachmentable_id' => ['sometimes', 'required', 'ulid', 'exists:tasks,id'],
+            'attachmentable_id' => ['sometimes', 'required', 'ulid', 'exists:tasks,_id'],
             'attachmentable_type' => ['sometimes', 'required', 'string', 'in:task'],
-            'uploaded_by' => ['sometimes', 'required', 'ulid', 'exists:users,id'],
+            'uploaded_by' => ['sometimes', 'required', 'ulid', 'exists:users,_id'],
             'disk' => ['sometimes', 'nullable', 'string', 'max:255'],
             'original_name' => ['sometimes', 'nullable', 'string', 'max:255'],
             'mime_type' => ['sometimes', 'nullable', 'string', 'max:255'],
