@@ -22,16 +22,11 @@ final readonly class LoginController
     {
         $request->authenticate();
 
-        // dd($request);
-
         /** @var NewAccessToken $token */
         $token = $request->user()?->createToken(
             name: $request->header('X-Integration-Name', 'default-integration'),
             abilities: [],
         );
-
-        // dd($token);
-
 
         return new TokenResponse(token: $token->plainTextToken);
     }
