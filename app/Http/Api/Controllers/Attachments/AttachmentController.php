@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Controllers\Attachments;
 
-use App\Http\Api\Requests\Attachments\StoreRequest;
+use App\Http\Api\Requests\Attachments\StoreAttachmentRequest;
 use App\Http\Api\Responses\MessageResponse;
 use App\Jobs\Attachments\CreateNewAttachment;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -17,7 +17,7 @@ final readonly class StoreController
 {
     public function __construct(private Dispatcher $bus) {}
 
-    public function __invoke(StoreRequest $request): MessageResponse
+    public function __invoke(StoreAttachmentRequest $request): MessageResponse
     {
         defer(
             callback: fn() => $this->bus->dispatch(
