@@ -15,6 +15,10 @@ final class Task extends Model
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory, HasMongoUlidKey;
 
+    protected $connection = 'mongodb';
+
+    protected $table = 'tasks';
+
     /**
      * @var list<string>
      */
@@ -28,8 +32,8 @@ final class Task extends Model
         'tag_ids',
     ];
 
-    protected $connection = 'mongodb';
-    protected $table = 'tasks';
+    /** @var list<string> */
+    protected $hidden = ['_id'];
 
     /**
      * @return array<string, string>
@@ -43,6 +47,6 @@ final class Task extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assigned_to');
+        return $this->belongsTo(User::class, 'assigned_to', '_id');
     }
 }
