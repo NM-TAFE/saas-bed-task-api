@@ -36,7 +36,7 @@ return [
         ],
 
         'database' => [
-            'driver' => 'database',
+            'driver' => 'mongodb',
             'connection' => env('DB_QUEUE_CONNECTION'),
             'table' => env('DB_QUEUE_TABLE', 'jobs'),
             'queue' => env('DB_QUEUE', 'default'),
@@ -88,7 +88,11 @@ return [
                 'deferred',
             ],
         ],
-
+        'failed' => [
+            'driver' => 'mongodb',
+            'database' => 'mongodb',
+            'table' => 'failed_jobs',
+        ],
     ],
 
     /*

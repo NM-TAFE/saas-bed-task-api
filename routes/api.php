@@ -15,3 +15,20 @@ Route::prefix('v1')->group(static function (): void {
         Route::prefix('attachments')->group(base_path(path: 'routes/api/attachments.php'));
     });
 });
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+Route::post(
+    '/webhooks/task-created',
+    function (Request $request) {
+        Log::info(
+            'Task webhook received',
+            $request->all(),
+        );
+
+        return response()->json([
+            'received' => true,
+        ]);
+    }
+);
