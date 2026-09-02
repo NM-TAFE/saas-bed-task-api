@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Support;
 
-use App\Models\Attachment;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -15,11 +15,15 @@ final class PolymorphicRelations
     public const ATTACHMENTABLE_PROJECT = 'project';
     public const ATTACHMENTABLE_TASK = 'task';
     public const ATTACHMENTABLE_MILESTONE = 'milestone';
+    public const USER = 'user';
 
 
     public static function enforceMorphMap(): void
     {
-        Relation::enforceMorphMap(self::attachmentables());
+        Relation::enforceMorphMap([
+            ...self::attachmentables(),
+            self::USER => User::class,
+        ]);
     }
 
     /** @return array<string, class-string<Model>> */
