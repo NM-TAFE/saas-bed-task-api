@@ -9,10 +9,9 @@ use App\Http\Api\Responses\MessageResponse;
 use App\Jobs\Attachments\UpdateAttachment;
 use App\Models\Attachment;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Illuminate\Support\defer;
-
-use Symfony\Component\HttpFoundation\Response;
 
 final readonly class UpdateController
 {
@@ -21,7 +20,7 @@ final readonly class UpdateController
     public function __invoke(UpdateAttachmentRequest $request, Attachment $attachment): MessageResponse
     {
         defer(
-            callback: fn() => $this->bus->dispatch(
+            callback: fn () => $this->bus->dispatch(
                 new UpdateAttachment(
                     attachment: $attachment,
                     payload: $request->payload($attachment),
