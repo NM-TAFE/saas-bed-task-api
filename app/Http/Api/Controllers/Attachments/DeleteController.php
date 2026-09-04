@@ -8,10 +8,9 @@ use App\Http\Api\Responses\MessageResponse;
 use App\Jobs\Attachments\DeleteAttachment;
 use App\Models\Attachment;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Illuminate\Support\defer;
-
-use Symfony\Component\HttpFoundation\Response;
 
 final readonly class DeleteController
 {
@@ -20,7 +19,7 @@ final readonly class DeleteController
     public function __invoke(Attachment $attachment): MessageResponse
     {
         defer(
-            callback: fn() => $this->bus->dispatch(new DeleteAttachment(attachment: $attachment)),
+            callback: fn () => $this->bus->dispatch(new DeleteAttachment(attachment: $attachment)),
             name: 'delete-attachment',
         );
 
