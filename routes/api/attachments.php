@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $attachments = Pagination::simple(
-        Attachment::query()->with(['user']),
+        Attachment::query()->with(['uploadedBy']),
     );
 
     return new PaginatedCollectionResponse(

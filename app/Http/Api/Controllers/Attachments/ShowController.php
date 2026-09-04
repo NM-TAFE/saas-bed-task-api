@@ -12,7 +12,7 @@ final readonly class ShowController
 {
     public function __invoke(Attachment $attachment): JsonResource
     {
-        $attachment->load(['attachmentable', 'user']);
+        $attachment->load(['attachmentable', 'uploadedBy']);
 
         return new AttachmentResource($attachment);
     }

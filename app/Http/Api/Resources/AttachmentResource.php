@@ -18,7 +18,7 @@ final class AttachmentResource extends JsonResource
             'file_path' => $this->resource->file_path,
             'uploaded_by' => $this->whenLoaded(
                 'uploadedBy',
-                fn() => $this->uploadedBy === null ? null : [
+                fn () => $this->uploadedBy === null ? null : [
                     'id' => $this->uploadedBy->id,
                     'name' => $this->uploadedBy->name,
                 ]

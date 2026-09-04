@@ -11,10 +11,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use MongoDB\Laravel\Eloquent\Model;
-use Throwable;
 
 /**
  * @property string $id
@@ -30,12 +28,13 @@ use Throwable;
  * @property CarbonInterface|null $created_at
  * @property CarbonInterface|null $updated_at
  * @property CarbonInterface|null $deleted_at
- * @property User|null $user
+ * @property User|null $uploadedBy
  */
 final class Attachment extends Model
 {
     /** @use HasFactory<AttachmentFactory> */
     use HasFactory;
+
     use HasMongoUlidKey;
     use SoftDeletes;
 
@@ -74,7 +73,7 @@ final class Attachment extends Model
         return $this->morphTo();
     }
 
-    public function user(): BelongsTo
+    public function uploadedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by', '_id');
     }
