@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Requests\Tasks;
 
+use App\Http\Payloads\Tasks\NewTask;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Http\Payloads\Tasks\NewTask;
 
 final class StoreTaskRequest extends FormRequest
 {
@@ -27,7 +27,7 @@ final class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'assigned_to' => ["nullable", "string", "exists:users,id"],
+            'assigned_to' => ['nullable', 'string', 'exists:users,_id'],
             'name' => ['string'],
             'description' => ['nullable', 'string'],
             'status' => ['required', Rule::in(['todo', 'in_progress', 'done'])],

@@ -29,7 +29,7 @@ final class UpdateTaskRequest extends FormRequest
     {
         return [
             // 'project_id' => ['sometimes', 'required', 'string', 'exists:projects,id'],
-            'assigned_to' => ['sometimes', 'nullable', 'string', 'exists:users,id'],
+            'assigned_to' => ['sometimes', 'nullable', 'string', 'exists:users,_id'],
             'name' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string'],
             'status' => ['sometimes', 'required', Rule::in(['todo', 'in_progress', 'done'])],
