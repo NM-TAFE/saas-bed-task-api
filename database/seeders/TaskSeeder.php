@@ -12,4 +12,3 @@ class TaskSeeder extends Seeder
         Task::factory()->count(20)->create();
     }
 }
-
