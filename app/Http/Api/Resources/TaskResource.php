@@ -18,7 +18,7 @@ final class TaskResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return  [
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
@@ -30,7 +30,7 @@ final class TaskResource extends JsonResource
             ],
             'assigned_to' => $this->whenLoaded(
                 'user',
-                fn() => $this->user === null ? null : [
+                fn () => $this->user === null ? null : [
                     'id' => $this->user->id,
                     'name' => $this->user->name,
                 ]
