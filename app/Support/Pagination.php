@@ -12,14 +12,12 @@ use Illuminate\Http\Request;
 final class Pagination
 {
     private const DEFAULT_PER_PAGE = 50;
+
     private const MAX_PER_PAGE = 100;
 
-    /**
-     * @param  EloquentBuilder|QueryBuilder  $query
-     */
     public static function simple(EloquentBuilder|QueryBuilder $query, ?Request $request = null): Paginator
     {
-        $perPage = true === $request?->has('per_page')
+        $perPage = $request?->has('per_page') === true
             ? $request->integer('per_page')
             : self::DEFAULT_PER_PAGE;
         $perPage = max(1, min($perPage, self::MAX_PER_PAGE));
