@@ -28,6 +28,6 @@ final class TaskFactory extends Factory
 
     public function done(): static
     {
-        return $this->state(fn() => ['status' => 'done']);
+        return $this->state(fn () => ['status' => 'done']);
     }
 }
