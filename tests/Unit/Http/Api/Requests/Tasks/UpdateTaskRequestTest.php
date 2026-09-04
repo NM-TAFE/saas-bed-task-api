@@ -10,7 +10,8 @@ use Tests\TestCase;
 
 final class UpdateTaskRequestTest extends TestCase
 {
-    public function test_omitted_nullable_fields_retain_the_task_values(): void
+    /** Checks that fields missing from the request keep their current values. */
+    public function test_missing_fields_keep_existing_values(): void
     {
         $task = $this->task();
 
@@ -22,7 +23,8 @@ final class UpdateTaskRequestTest extends TestCase
         self::assertSame('existing-user', $payload->user);
     }
 
-    public function test_explicit_null_clears_nullable_fields(): void
+    /** Checks that nullable fields can be cleared by sending null. */
+    public function test_null_fields_clear_existing_values(): void
     {
         $task = $this->task();
 
@@ -37,7 +39,11 @@ final class UpdateTaskRequestTest extends TestCase
         self::assertNull($payload->user);
     }
 
-    /** @param array<string, mixed> $data */
+    /**
+     * Creates and validates an update request using the given data.
+     *
+     * @param  array<string, mixed>  $data
+     */
     private function request(array $data): UpdateTaskRequest
     {
         $request = UpdateTaskRequest::create('/', 'PUT', $data);
@@ -47,6 +53,7 @@ final class UpdateTaskRequestTest extends TestCase
         return $request;
     }
 
+    /** Creates a task with the starting values used by these tests. */
     private function task(): Task
     {
         return new Task([
