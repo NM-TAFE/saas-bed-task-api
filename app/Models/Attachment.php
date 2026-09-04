@@ -84,22 +84,4 @@ final class Attachment extends Model
     {
         return (string) ($this->attributes['path'] ?? '');
     }
-
-    //     public function deleteStoredObject(): void
-    //     {
-    //         if ('' === $this->path) {
-    //             return;
-    //         }
-
-    //         try {
-    //             Storage::disk($this->disk)->delete($this->path);
-    //         } catch (Throwable $exception) {
-    //             Log::warning('Attachment storage cleanup failed.', [
-    //                 'attachment_id' => $this->id,
-    //                 'disk' => $this->disk,
-    //                 'path' => $this->path,
-    //                 'error' => $exception->getMessage(),
-    //             ]);
-    //         }
-    //     }
 }
