@@ -15,10 +15,8 @@ final class SendTaskCreatedWebhookTest extends TestCase
     public function test_it_sends_a_signed_webhook(): void
     {
         config([
-            'services.task_webhook.url'
-            => 'https://example.test/webhook',
-            'services.task_webhook.secret'
-            => 'test-secret',
+            'services.task_webhook.url' => 'https://example.test/webhook',
+            'services.task_webhook.secret' => 'test-secret',
         ]);
 
         Http::fake();
