@@ -15,6 +15,7 @@ final class SendTaskCreatedWebhook implements ShouldQueue
     use Queueable;
 
     public int $tries = 3;
+
     public array $backoff = [10, 30, 60];
 
     public function __construct(
@@ -25,7 +26,7 @@ final class SendTaskCreatedWebhook implements ShouldQueue
     {
         $url = config('services.task_webhook.url');
         $secret = config('services.task_webhook.secret');
-        if (! is_string($url) || '' === $url) {
+        if (! is_string($url) || $url === '') {
             return;
         }
         $payload = [
