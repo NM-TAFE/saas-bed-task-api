@@ -8,10 +8,9 @@ use App\Http\Api\Requests\Tasks\StoreTaskRequest;
 use App\Http\Api\Responses\MessageResponse;
 use App\Jobs\Tasks\CreateNewTask;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Illuminate\Support\defer;
-
-use Symfony\Component\HttpFoundation\Response;
 
 final readonly class StoreController
 {
@@ -20,7 +19,7 @@ final readonly class StoreController
     public function __invoke(StoreTaskRequest $request): MessageResponse
     {
         defer(
-            callback: fn() => $this->bus->dispatch(
+            callback: fn () => $this->bus->dispatch(
                 command: new CreateNewTask(payload: $request->payload()),
             ),
             name: 'create-new-task',
