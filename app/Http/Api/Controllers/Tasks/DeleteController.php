@@ -8,10 +8,9 @@ use App\Http\Api\Responses\MessageResponse;
 use App\Jobs\Tasks\DeleteTask;
 use App\Models\Task;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Illuminate\Support\defer;
-
-use Symfony\Component\HttpFoundation\Response;
 
 final readonly class DeleteController
 {
@@ -20,7 +19,7 @@ final readonly class DeleteController
     public function __invoke(Task $task): MessageResponse
     {
         defer(
-            callback: fn() => $this->bus->dispatch(new DeleteTask(task: $task)),
+            callback: fn () => $this->bus->dispatch(new DeleteTask(task: $task)),
             name: 'delete-Task',
         );
 
