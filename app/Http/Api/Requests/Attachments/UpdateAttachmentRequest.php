@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Requests\Attachments;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use App\Http\Payloads\Attachments\NewAttachment;
 use App\Models\Attachment;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class UpdateAttachmentRequest extends FormRequest
@@ -37,7 +37,6 @@ final class UpdateAttachmentRequest extends FormRequest
             'size' => ['sometimes', 'nullable', 'integer', 'min:0'],
         ];
     }
-
 
     public function payload(Attachment $attachment): NewAttachment
     {
