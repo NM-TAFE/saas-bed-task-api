@@ -13,7 +13,7 @@ final class AttachmentStorageService
 {
     public function delete(Attachment $attachment): bool
     {
-        if ('' === $attachment->path) {
+        if ($attachment->path === '') {
             return true;
         }
         try {
