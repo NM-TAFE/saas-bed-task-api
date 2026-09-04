@@ -6,12 +6,16 @@ namespace App\Jobs\Tasks;
 
 use App\Http\Payloads\Tasks\NewTask;
 use App\Models\Task;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 
-final readonly class UpdateTask
+final class UpdateTask implements ShouldQueue
 {
+    use Queueable;
+
     public function __construct(
-        public Task $task,
-        public NewTask $payload,
+        public readonly Task $task,
+        public readonly NewTask $payload,
     ) {}
 
     public function handle(): Task

@@ -14,7 +14,7 @@ final class CreateNewTask implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public NewTask $payload) {}
+    public function __construct(public readonly NewTask $payload) {}
 
     public function handle(): Task
     {

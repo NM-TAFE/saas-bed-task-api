@@ -9,8 +9,9 @@ use App\Models\Attachment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-final class CreateNewAttachment
+final class CreateNewAttachment implements ShouldQueue
 {
+    use Queueable;
 
     public function __construct(public readonly NewAttachment $payload) {}
 
