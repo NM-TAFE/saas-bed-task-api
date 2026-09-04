@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 final class PolymorphicRelations
 {
-
     public const ATTACHMENTABLE_PROJECT = 'project';
-    public const ATTACHMENTABLE_TASK = 'task';
-    public const ATTACHMENTABLE_MILESTONE = 'milestone';
-    public const USER = 'user';
 
+    public const ATTACHMENTABLE_TASK = 'task';
+
+    public const ATTACHMENTABLE_MILESTONE = 'milestone';
+
+    public const USER = 'user';
 
     public static function enforceMorphMap(): void
     {
@@ -49,13 +50,13 @@ final class PolymorphicRelations
     {
         $class = self::classForAttachmentableAlias($alias);
 
-        return null === $class ? null : $class::query()->find($id);
+        return $class === null ? null : $class::query()->find($id);
     }
 
     /** @param array<string, class-string<Model>> $allowedTypes */
     private static function normaliseType(?string $type, array $allowedTypes): ?string
     {
-        if (null === $type) {
+        if ($type === null) {
             return null;
         }
 
@@ -64,7 +65,7 @@ final class PolymorphicRelations
         foreach ($allowedTypes as $alias => $class) {
             if (
                 $normalised === $alias
-                || $normalised === $alias . 's'
+                || $normalised === $alias.'s'
                 || $normalised === mb_strtolower($class)
                 || $normalised === mb_strtolower(class_basename($class))
             ) {
