@@ -25,7 +25,7 @@ final class AttachmentStorageServiceTest extends TestCase
             'path' => 'attachments/report.pdf',
         ]);
 
-        $service = new AttachmentStorageService();
+        $service = new AttachmentStorageService;
 
         self::assertTrue(
             $service->delete($attachment)
