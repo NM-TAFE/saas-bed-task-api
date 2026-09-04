@@ -15,8 +15,16 @@ final readonly class NewTask
         public array $tagIds,
     ) {}
 
-
-    /** @return array{name:string,description:?string,status:string,due_date:?string,assigned_to:?string} */
+    /**
+     * @return array{
+     *     name: string,
+     *     description: ?string,
+     *     status: string,
+     *     due_date: ?string,
+     *     assigned_to: ?string,
+     *     tag_ids: list<string>
+     * }
+     */
     public function toArray(): array
     {
         return [
