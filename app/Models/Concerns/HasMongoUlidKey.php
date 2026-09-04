@@ -11,7 +11,9 @@ trait HasMongoUlidKey
     use HasUlids;
 
     public $incrementing = false;
+
     protected $primaryKey = '_id';
+
     protected $keyType = 'string';
 
     public function getRouteKeyName(): string
