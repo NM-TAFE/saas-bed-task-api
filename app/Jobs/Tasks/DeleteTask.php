@@ -19,7 +19,6 @@ final class DeleteTask implements ShouldQueue
 
     public function handle(AttachmentStorageService $attachmentStorage): void
     {
-
         // TODO What else needs to be deleted
 
         /** @var Collection<int, Attachment> $attachments */

@@ -18,7 +18,7 @@ The app is currently single-tenant at runtime. Multitenancy-related structure is
 - Auth endpoint using Sanctum personal access tokens
 - Request validation classes under `app/Http/Api/Requests`
 - API controllers under `app/Http/Api/Controllers`
-- Resource serialization under `app/Http/Resources`
+- Resource serialization under `app/Http/Api/Resources`
 - Response wrapper classes scaffolded under `app/Http/Api/Responses`
 
 Current API routes:
@@ -28,8 +28,16 @@ Current API routes:
 - `GET /api/v1/tasks`
 - `POST /api/v1/tasks`
 - `GET /api/v1/tasks/{task}`
-- `PUT/PATCH /api/v1/tasks/{task}`
+- `PUT /api/v1/tasks/{task}`
 - `DELETE /api/v1/tasks/{task}`
+- `GET /api/v1/attachments`
+- `POST /api/v1/attachments`
+- `GET /api/v1/attachments/{attachment}`
+- `PUT /api/v1/attachments/{attachment}`
+- `DELETE /api/v1/attachments/{attachment}`
+- `POST /api/webhooks/task-created`
+
+All `/api/v1/users`, `/api/v1/tasks`, and `/api/v1/attachments` routes require a Sanctum bearer token. The login endpoint and task-created webhook do not.
 
 ## Authentication
 
@@ -72,7 +80,7 @@ Defined in `database/seeders/DatabaseSeeder.php`.
 - PHP 8.3+
 - Composer
 - Node.js and npm
-- MySQL for local runtime, or SQLite for test runs
+- MongoDB with the PHP MongoDB extension
 
 ### Initial setup
 
@@ -83,6 +91,8 @@ php artisan key:generate
 php artisan migrate
 php artisan db:seed
 ```
+
+The example environment uses a local MongoDB instance at `mongodb://127.0.0.1:27017/` and database name `myjamjar`. Change `DB_URI` and `DB_DATABASE` in `.env` when using another MongoDB instance.
 
 Or use the Composer helper:
 
@@ -196,4 +206,4 @@ Not implemented yet:
 
 - User IDs use ULIDs.
 - Sanctum personal access tokens are configured to work with ULID-backed users.
-- Tests run against SQLite in memory via `phpunit.xml`.
+- Database-backed tests require a reachable MongoDB instance because the domain models explicitly use the `mongodb` connection. The current `phpunit.xml` SQLite setting does not override those model connections.

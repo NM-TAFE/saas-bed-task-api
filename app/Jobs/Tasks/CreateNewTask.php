@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Jobs\Tasks;
 
 use App\Http\Payloads\Tasks\NewTask;
+use App\Jobs\Webhooks\SendTaskCreatedWebhook;
 use App\Models\Task;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use App\Jobs\Webhooks\SendTaskCreatedWebhook;
 
 final class CreateNewTask implements ShouldQueue
 {
@@ -22,7 +22,8 @@ final class CreateNewTask implements ShouldQueue
             $this->payload->toArray()
         );
 
-        SendTaskCreatedWebhook::dispatch($task);
+        // NOTE:  the test route needs to be switched on first
+        // SendTaskCreatedWebhook::dispatch($task);
 
         return $task;
     }

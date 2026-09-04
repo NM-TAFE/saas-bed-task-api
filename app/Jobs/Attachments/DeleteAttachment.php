@@ -15,11 +15,6 @@ final class DeleteAttachment implements ShouldQueue
 
     public function __construct(public readonly Attachment $attachment) {}
 
-    // public function handle(): void
-    // {
-    //     $this->attachment->delete();
-    // }
-
     public function handle(
         AttachmentStorageService $storage,
     ): void {
