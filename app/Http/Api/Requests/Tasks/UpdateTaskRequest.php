@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Api\Requests\Tasks;
 
+use App\Http\Payloads\Tasks\NewTask;
+use App\Models\Task;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Http\Payloads\Tasks\NewTask;
-use App\Models\Task;
 
 final class UpdateTaskRequest extends FormRequest
 {
@@ -50,11 +50,17 @@ final class UpdateTaskRequest extends FormRequest
         $data = $this->validated();
 
         return new NewTask(
-            name: (string) $data['name'] ?? $task->name,
-            description: (string) $data['description'] ?? $task->description,
-            status: (string) $data['status'] ?? $task->status,
-            dueDate: $data['due_date'] ?? $task->due_date?->format('d-m-Y'),
-            user: $data['assigned_to'] ?? $task->assigned_to,
+            name: (string) ($data['name'] ?? $task->name),
+            description: array_key_exists('description', $data)
+                ? $data['description']
+                : $task->description,
+            status: (string) ($data['status'] ?? $task->status),
+            dueDate: array_key_exists('due_date', $data)
+                ? $data['due_date']
+                : $task->due_date?->format('d-m-Y'),
+            user: array_key_exists('assigned_to', $data)
+                ? $data['assigned_to']
+                : $task->assigned_to,
             tagIds: $data['tag_ids']
                 ?? $task->tag_ids
                 ?? [],

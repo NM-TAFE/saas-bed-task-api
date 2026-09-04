@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Support\PolymorphicRelations;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.

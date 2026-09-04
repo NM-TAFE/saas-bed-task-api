@@ -9,10 +9,9 @@ use App\Http\Api\Responses\MessageResponse;
 use App\Jobs\Tasks\UpdateTask;
 use App\Models\Task;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Illuminate\Support\defer;
-
-use Symfony\Component\HttpFoundation\Response;
 
 final readonly class UpdateController
 {
@@ -21,8 +20,8 @@ final readonly class UpdateController
     public function __invoke(UpdateTaskRequest $request, Task $task): MessageResponse
     {
         defer(
-            callback: fn() => $this->bus->dispatch(
-                new UpdateTask(task: $task, payload: $request->payload()),
+            callback: fn () => $this->bus->dispatch(
+                new UpdateTask(task: $task, payload: $request->payload($task)),
             ),
             name: 'update-task',
         );
